@@ -9,11 +9,12 @@ import UIKit
 
 class MovieTableViewCell: UITableViewCell {
     private lazy var moviePosterImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage.avatar)
+        let imageView = UIImageView()
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 12
+        imageView.layer.masksToBounds = true
         
         return imageView
     }()
@@ -22,7 +23,6 @@ class MovieTableViewCell: UITableViewCell {
         let label = UILabel()
         
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Avatar"
         label.font = .systemFont(ofSize: 20, weight: .bold)
         label.textColor = .white
         
@@ -33,12 +33,17 @@ class MovieTableViewCell: UITableViewCell {
         let label = UILabel()
         
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Lançamento: 18/12/2009"
         label.font = .systemFont(ofSize: 18)
         label.textColor = .white.withAlphaComponent(0.75)
         
         return label
     }()
+    
+    func configureCell(movie: Movie) {
+        movieTitleLabel.text = movie.title
+        moviePosterImageView.image = UIImage(named: movie.image)
+        movieReleaseDateLabel.text = "Lançamento: \(movie.releaseDate)"
+    }
     
     private func addSubviews() {
         addSubview(moviePosterImageView)
@@ -53,7 +58,7 @@ class MovieTableViewCell: UITableViewCell {
             moviePosterImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
             moviePosterImageView.widthAnchor.constraint(equalToConstant: 100),
             
-            movieTitleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            movieTitleLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -16),
             movieTitleLabel.leadingAnchor.constraint(equalTo: moviePosterImageView.trailingAnchor, constant: 16),
             
             movieReleaseDateLabel.topAnchor.constraint(equalTo: movieTitleLabel.bottomAnchor, constant: 8),
@@ -85,6 +90,6 @@ class MovieTableViewCell: UITableViewCell {
 
 }
 
-#Preview {
-    MovieTableViewCell()
-}
+//#Preview {
+//    MovieTableViewCell()
+//}
