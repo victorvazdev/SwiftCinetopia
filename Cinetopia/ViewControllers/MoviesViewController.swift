@@ -24,21 +24,21 @@ class MoviesViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .background
         setupNavigationBar()
-        setupConstraints()
         addSubviews()
+        setupConstraints()
     }
     
     private func setupConstraints() {
-        view.addSubview(tableView)
-    }
-    
-    private func addSubviews() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
+    }
+    
+    private func addSubviews() {
+        view.addSubview(tableView)
     }
     
     private func setupNavigationBar() {
@@ -59,6 +59,7 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "movieCell", for: indexPath) as? MovieTableViewCell {
             cell.configureCell(movie: movies[indexPath.row])
+            cell.selectionStyle = .none
             
             return cell
         }
@@ -68,6 +69,10 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let detailsVC = MovieDetailsViewController(movie: movies[indexPath.row])
+        
+        navigationController?.pushViewController(detailsVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
