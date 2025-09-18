@@ -19,6 +19,17 @@ class MoviesViewController: UIViewController {
         
         return tableView
     }()
+    
+    private lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.placeholder = "Pesquisar"
+//        searchBar.searchTextField.backgroundColor = .white
+        searchBar.delegate = self
+        
+        return searchBar
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +59,7 @@ class MoviesViewController: UIViewController {
             NSAttributedString.Key.foregroundColor: UIColor.white
         ]
         navigationItem.setHidesBackButton(true, animated: true)
+        navigationItem.titleView = searchBar
     }
 }
 
@@ -77,5 +89,11 @@ extension MoviesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 160
+    }
+}
+
+extension MoviesViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print(searchText)
     }
 }
